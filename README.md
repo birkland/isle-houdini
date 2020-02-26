@@ -1,1 +1,22 @@
-# isle-houdini
+# ISLE 8 - Houdini image
+
+Designed to used with:
+
+* The `isle-houdini-connector` container and docker-compose service
+* The Drupal 8 site
+
+Based on:
+
+* Official PHP Apache image: [php:7.4.3-apache](https://hub.docker.com/layers/php/library/php/7.4.3-apache/images/sha256-48dde1707d7dca2b701aa230344c58cb8ec5b0ce8e9dbceced65bec5ccd7d1d0?context=explore)
+
+Contains and includes:
+
+* [Composer](https://getcomposer.org/)
+* [ImageMagick with JP2 support](https://launchpad.net/~lyrasis/+archive/ubuntu/imagemagick-jp2)
+
+## MVP 2 sprint
+
+* To build a local image without docker-compose: _pseudo-code do not run this yet_
+  * `docker build -t islandoradevops/isle-houdini .`
+
+* TO DO: update docker-compose with build information
