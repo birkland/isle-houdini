@@ -4,6 +4,8 @@ FROM php:7.4.3-apache
 ## General Dependencies
 RUN GEN_DEP_PACKS="software-properties-common \
     gnupg \
+    zip \
+    unzip \
     git" && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     apt-get update && \
@@ -43,7 +45,7 @@ RUN curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HA
     rm composer-setup.php && \
     rm -rf /var/www/html/* && \
     git clone -b $HOUDINI_BRANCH https://github.com/Islandora/Crayfish.git /var/www/html && \
-    sudo -u www-data composer install -d /var/www/html/Houdini && \
+    composer install -d /var/www/html/Houdini && \
     mkdir /var/log/islandora && \
     chown www-data:www-data /var/log/islandora
 
