@@ -3,7 +3,8 @@ FROM php:7.4.3-apache
 
 ## General Dependencies
 RUN GEN_DEP_PACKS="software-properties-common \
-    gnupg" && \
+    gnupg \
+    git" && \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     apt-get update && \
     apt-get install --no-install-recommends -y $GEN_DEP_PACKS && \
@@ -14,15 +15,13 @@ RUN GEN_DEP_PACKS="software-properties-common \
 ## Imagick 
 # @see: https://launchpad.net/~lyrasis/+archive/ubuntu/imagemagick-jp2 
 
-#RUN add-apt-repository -y ppa:lyrasis/imagemagick-jp2 && \
-#    add-apt-repository -y ppa:ondrej/php && \
-
-ENV IMAGEMAGICK_REPO=http://ppa.launchpad.net/lyrasis/imagemagick-jp2/ubuntu
+ENV IMAGEMAGICK_REPO=http://ppa.launchpad.net/lyrasis/imagemagick-jp2/ubuntu \
+    IMAGEMAGICK_GPG_KEY=C806C0C35327CC80F2B4A41ED2B749E9FF0FA317
 
 RUN echo deb $IMAGEMAGICK_REPO bionic main >> /etc/apt/sources.list && \
     echo deb-src $IMAGEMAGICK_REPO bionic main >> /etc/apt/sources.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1024R/C806C0C35327CC80F2B4A41ED2B749E9FF0FA317 && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $IMAGEMAGICK_GPG_KEY && \
     IMAGEMAGICK_PACKS="imagemagick" && \
     apt-get update && \
     apt-get install --no-install-recommends -y $IMAGEMAGICK_PACKS && \
@@ -43,8 +42,8 @@ RUN curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HA
     php composer-setup.php --filename=composer --install-dir=/usr/local/bin && \
     rm composer-setup.php && \
     rm -rf /var/www/html/* && \
-    git clone https://github.com/Islandora/Crayfish/tree/$HOUDINI_BRANCH/Houdini /var/www/html && \
-    sudo -u www-data composer install -d crayfish/Houdini && \
+    git clone -b $HOUDINI_BRANCH https://github.com/Islandora/Crayfish.git /var/www/html && \
+    sudo -u www-data composer install -d /var/www/html/Houdini && \
     mkdir /var/log/islandora && \
     chown www-data:www-data /var/log/islandora
 
