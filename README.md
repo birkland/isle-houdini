@@ -20,3 +20,5 @@ Contains and includes:
   * `docker build -t islandoradevops/isle-houdini .`
 
 * TO DO: update docker-compose with build information
+
+* TO DO: Despite successful build, further testing is required to determine if the resulting container works, what happens and how to communicate with it.
