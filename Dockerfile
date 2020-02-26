@@ -46,8 +46,10 @@ RUN curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HA
     rm -rf /var/www/html/* && \
     git clone -b $HOUDINI_BRANCH https://github.com/Islandora/Crayfish.git /var/www/html && \
     composer install -d /var/www/html/Houdini && \
+    chown -Rv www-data:www-data /var/www/html && \
     mkdir /var/log/islandora && \
-    chown www-data:www-data /var/log/islandora
+    chown www-data:www-data /var/log/islandora && \
+    sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/Houdini\/public/' /etc/apache2/sites-enabled/000-default.conf
 
 ## jwt
 # https://github.com/qadan/documentation/blob/installation/docs/installation/manual/configuring_drupal.md 
@@ -71,8 +73,11 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0"
 
-VOLUME /var/www/html
+ENTRYPOINT ["docker-php-entrypoint"]
+
+STOPSIGNAL SIGWINCH
+
+WORKDIR /var/www/html
 
 EXPOSE 80
-
-ENTRYPOINT ["/init"]
+CMD ["apache2-foreground"]
