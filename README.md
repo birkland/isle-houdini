@@ -17,9 +17,13 @@ Contains and includes:
 
 ## MVP 2 sprint
 
-* TO DO: build a local image without docker-compose: _pseudo-code do not run this yet_
+* **TO DO:** Build a local image without docker-compose: _pseudo-code do not run this yet_
   * `docker build -t islandoradevops/isle-houdini .`
 
-* TO DO: Despite successful build, further testing is required to determine if the resulting container works, what happens and how to communicate with it.
+* **TO DO:** Despite successful build, further testing is required to determine if the resulting container works, what happens and how to communicate with it.
 
-* TO DO: how to expose API-X endpoints for Homarus e.g. `/identify/ &  /convert/` to be called by curl or is this an Apache setup change on the Drupal site or both the service and site?
+* **TO DO:** How to expose API-X endpoints for Homarus e.g. `/identify/ &  /convert/` to be called by curl or is this an Apache setup change on the Drupal site or both the service and site?
+
+* **TO DO:** Add SYN / JWT
+
+* **TO DO:** Convert Apache logging to stdout / stderr
