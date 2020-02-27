@@ -13,12 +13,11 @@ Contains and includes:
 
 * [Composer](https://getcomposer.org/)
 * [ImageMagick with JP2 support](https://launchpad.net/~lyrasis/+archive/ubuntu/imagemagick-jp2)
+* [Houdini](https://github.com/Islandora/Crayfish/tree/dev/Houdini)
 
 ## MVP 2 sprint
 
 * To build a local image without docker-compose: _pseudo-code do not run this yet_
   * `docker build -t islandoradevops/isle-houdini .`
-
-* TO DO: update docker-compose with build information
 
 * TO DO: Despite successful build, further testing is required to determine if the resulting container works, what happens and how to communicate with it.
