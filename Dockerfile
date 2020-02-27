@@ -43,14 +43,17 @@ ENV PATH=$PATH:$HOME/.composer/vendor/bin \
 RUN curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HASH/web/installer --output composer-setup.php --silent && \
     php composer-setup.php --filename=composer --install-dir=/usr/local/bin && \
     rm composer-setup.php && \
-    rm -rf /var/www/html/* && \
-    git clone -b $HOUDINI_BRANCH https://github.com/Islandora/Crayfish.git /var/www/html && \
-    cp /var/www/html/Houdini/cfg/config.example.yaml /var/www/html/Houdini/cfg/config.yaml && \
-    composer install -d /var/www/html/Houdini && \
-    chown -Rv www-data:www-data /var/www/html && \
+    mkdir -p /opt/crayfish && \
+    git clone -b $HOUDINI_BRANCH https://github.com/Islandora/Crayfish.git /opt/crayfish && \
+    cp /opt/crayfish/Houdini/cfg/config.example.yaml /opt/crayfish/Houdini/cfg/config.yaml && \
+    composer install -d /opt/crayfish/Houdini && \
+    chown -Rv www-data:www-data /opt/crayfish && \
     mkdir /var/log/islandora && \
     chown www-data:www-data /var/log/islandora && \
-    sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/Houdini\/public/' /etc/apache2/sites-enabled/000-default.conf
+    a2dissite 000-default && \
+    #echo "ServerName localhost" | tee /etc/apache2/conf-available/servername.conf && \
+    #a2enconf servername && \
+    a2enmod rewrite deflate headers expires proxy proxy_http proxy_html proxy_connect remoteip xml2enc cache_disk
 
 ## jwt
 # https://github.com/qadan/documentation/blob/installation/docs/installation/manual/configuring_drupal.md 
@@ -78,7 +81,9 @@ ENTRYPOINT ["docker-php-entrypoint"]
 
 STOPSIGNAL SIGWINCH
 
-WORKDIR /var/www/html
+COPY rootfs /
+
+WORKDIR /opt/crayfish/Houdini/
 
 EXPOSE 80
 CMD ["apache2-foreground"]
