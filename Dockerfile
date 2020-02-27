@@ -45,6 +45,7 @@ RUN curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HA
     rm composer-setup.php && \
     rm -rf /var/www/html/* && \
     git clone -b $HOUDINI_BRANCH https://github.com/Islandora/Crayfish.git /var/www/html && \
+    cp /var/www/html/Houdini/cfg/config.example.yaml /var/www/html/Houdini/cfg/config.yaml && \
     composer install -d /var/www/html/Houdini && \
     chown -Rv www-data:www-data /var/www/html && \
     mkdir /var/log/islandora && \
