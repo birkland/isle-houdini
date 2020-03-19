@@ -61,7 +61,8 @@ RUN curl https://raw.githubusercontent.com/composer/getcomposer.org/$COMPOSER_HA
     a2dissite 000-default && \
     #echo "ServerName localhost" | tee /etc/apache2/conf-available/servername.conf && \
     #a2enconf servername && \
-    a2enmod rewrite deflate headers expires proxy proxy_http proxy_html proxy_connect remoteip xml2enc cache_disk
+    a2enmod rewrite deflate headers expires proxy proxy_http proxy_html proxy_connect remoteip xml2enc cache_disk && \
+    rm -rf /opt/crayfish/Houdini/var/cache
 
 ARG BUILD_DATE
 ARG VCS_REF
